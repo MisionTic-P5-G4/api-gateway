@@ -7,6 +7,10 @@ const productResolver = {
         products: (_,{},{dataSources}) => {
             return dataSources.productAPI.getProducts();
         },
+
+        productsByService: (_, {state}, {dataSources}) => {
+            return dataSources.productAPI.getProductsByService(state);
+        }
     },
 
     Mutation: {
