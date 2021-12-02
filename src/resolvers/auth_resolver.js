@@ -70,6 +70,7 @@ const userResolver = {
         deleteUser: async(_,{},{dataSources, userIdToken}) => {
             if (userIdToken != null){
                 usr = await dataSources.authAPI.getUser(userIdToken)
+                await dataSources.userProductAPI.deleteItemByUserId(usr.id);
                 return await dataSources.authAPI.deleteUser(usr.id);
             }
             else 
