@@ -7,6 +7,10 @@ const productResolver = {
         products: (_,{},{dataSources}) => {
             return dataSources.productAPI.getProducts();
         },
+
+        productsByService: (_, {state}, {dataSources}) => {
+            return dataSources.productAPI.getProductsByService(state);
+        }
     },
 
     Mutation: {
@@ -36,8 +40,10 @@ const productResolver = {
         deleteProduct: async(_,{id}, {dataSources, userIdToken}) => {
             if (userIdToken != null){
                 adm = await dataSources.authAPI.getUser(userIdToken)
-                if (adm.admin == true)
+                if (adm.admin == true){
+                    await dataSources.userProductAPI.deleteItemByProducId(id);
                     return await dataSources.productAPI.deleteProduct(id)
+                }
                 else
                     return null
             }

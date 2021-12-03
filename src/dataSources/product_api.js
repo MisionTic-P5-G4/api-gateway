@@ -20,6 +20,10 @@ class ProductAPI extends RESTDataSource {
         return await this.get('/products/');
     }
 
+    async getProductsByService(state){
+        return await this.get(`/products/${state}`);
+    }
+
     async updateProduct(productId,product) {
         product = new Object(JSON.parse(JSON.stringify(product)));
         return await this.put(`/product/${productId}`,product);
