@@ -171,7 +171,6 @@ Ejemplo de respuesta OK
     "createProduct": {
       "id": 7,
       "name": "graphql1",
-      "city": "Popayán",
       "price": 100000,
     }
   }
@@ -224,15 +223,11 @@ Ejemplo de respuesta OK
         "id": 1,
         "name": "vacunación",
         "price": 100000,
-        "city": "Bogotá",
-        "description": "aplica vacunas"
       },
       {
         "id": 2,
         "name": "esterilización",
         "price": 100000,
-        "city": "Bogotá",
-        "description": "quitar matriz"
       },
 ```
 

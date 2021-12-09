@@ -6,18 +6,21 @@ const productTypeDefs = gql `
         name: String!
         price: Int!
         isService: Boolean!
+        imgSrc: String!
     }
 
     input inProduct {
         name: String!
         price: Int!
         isService: Boolean!
+        imgSrc: String!
     }
 
     input updateProduct {
         name: String!
         price: Int!
         isService: Boolean!
+        imgSrc: String!
     }
 
     extend type Query {
