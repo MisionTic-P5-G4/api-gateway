@@ -5,21 +5,21 @@ const productTypeDefs = gql `
         id: Int!
         name: String!
         price: Int!
-        isService: Boolean!
+        service: Boolean!
         imgSrc: String!
     }
 
     input inProduct {
         name: String!
         price: Int!
-        isService: Boolean!
+        service: Boolean!
         imgSrc: String!
     }
 
     input updateProduct {
         name: String!
         price: Int!
-        isService: Boolean!
+        service: Boolean!
         imgSrc: String!
     }
 
