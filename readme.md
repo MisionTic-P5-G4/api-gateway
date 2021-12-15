@@ -1,14 +1,16 @@
 # [Guardería - API-Gateway](https://mintic-p5-g4-dw-apigateway.herokuapp.com/)
 
-**Guardería - API-Gateway** Gateway para los microservicios de [**backend**](https://mintic2022-p5-g4-dw-be-auth.herokuapp.com/api/schema/swagger-ui/#/) y [**frontend**](https://mintic-p5-g4-dw-be-projects.herokuapp.com/swagger-ui/#/product-controller)
+**Guardería - API-Gateway** Gateway para los microservicios de [**backend**](https://mintic2022-p5-g4-dw-be-auth.herokuapp.com/api/schema/swagger-ui/#/) y [**frontend**](https://mintic-p5-g4-dw-be-projects.herokuapp.com/swagger-ui/#/product-controller). En este microservicio, se programa parte de la lógica del programa y generan validaciones para el consumo de las API referenciadas anteriormente.
 
 **Url con Graphql query console [https://mintic-p5-g4-dw-apigateway.herokuapp.com/](https://mintic-p5-g4-dw-apigateway.herokuapp.com/)**
 
 #### Resumen
-| Servicio | funcionalidad| funcionalidad | funcionalidad | funcionalidad | funcionalidad | funcionalidad | funcionalidad | funcionalidad |
-| --------- | --------- | --------- | --------- | --------- | --------- | --------- | --------- | --------- |
-| Mutations| SignUpUser| logIn| refreshToken| updateUser| deleteUser| createProduct| updateProduct| deleteProduct|
-| Queries| userDetailById| userList| productById| products|||||
+| Servicio | Mutations | Mutations | Mutations | Queries | Queries | Queries |
+| --------- | --------- | --------- | --------- | --------- | --------- | --------- |
+| Token | logIn | refreshToken | verifyToken | | | | |
+| User DB | SignUpUser | updateUser | deleteUser | products | userList | userDetailById |
+| Products DB | createProduct | updateProduct | deleteProduct | productById | products |
+| UserProducts DB | createItem | updateItem | deleteItem <br> deleteItemsByUserId | getItem | getItems |
 
 
 ## User Mutations & Queries
@@ -274,6 +276,178 @@ Ejemplo de respuesta OK
 "data": {
     "deleteProduct": "producto eliminado"
   }
+```
+
+
+## UserProduct Mutations & Queries
+A contiuación se describen los servicios disponibles para el crud de Product. Este crud va haica los productos comprados por los usuarios. Tiene restricciones para no tener más de dos product ID por user Id.
+
+### createItem
+Ejemplo entrada función
+```bash
+mutation CreateUserProduct($inputItem: inUserProduct!) {
+  createUserProduct(inputItem: $inputItem) {
+    id
+    userId
+    productId
+    quantity
+    dateModified
+  }
+}
+```
+Ejemplo variable
+```bash
+{
+  "inputItem": {
+    "productId": 0,
+    "quantity": 0
+  }
+}
+```
+Ejemplo de respuesta OK
+```bash
+{
+  "data": {
+    "createUserProduct": {
+      "id": 91,
+      "userId": 7,
+      "productId": 100,
+      "quantity": 1,
+      "dateModified": "2021-12-15T01:51:57.536+00:00"
+    }
+  }
+}
+```
+
+### Update Item
+Ejemplo de función:
+```bash
+mutation UpdateUserProduct($inUpdateItem: inUserProduct!) {
+  updateUserProduct(inUpdateItem: $inUpdateItem) {
+    id
+    userId
+    productId
+    quantity
+    dateModified
+  }
+}
+```
+Ejemplo de variable
+```bash
+{
+  "inUpdateItem": {
+    "productId": 100,
+    "quantity": 2
+  }
+}
+```
+Ejemplo de respuesta OK
+```bash
+{
+  "data": {
+    "updateUserProduct": {
+      "id": 91,
+      "userId": 7,
+      "productId": 100,
+      "quantity": 2,
+      "dateModified": "2021-12-15T01:51:57.536+00:00"
+    }
+  }
+}
+```
+
+### Delete Item:
+Ejemplo de función:
+```bash
+mutation DeleteUserProduct($productId: Int!) {
+  deleteUserProduct(productId: $productId)
+}
+```
+Ejemplo de variable
+```bash
+{
+  "productId": 100
+}
+```
+Ejemplo de respuesta OK
+```bash
+{
+  "data": {
+    "deleteUserProduct": "Product id deleted: 100"
+  }
+}
+```
+
+### GeItem:
+
+Ejemplo de función:
+```bash
+query GetUserProduct($userId: Int!, $productId: Int!) {
+  getUserProduct(userId: $userId, productId: $productId) {
+    id
+    userId
+    productId
+    quantity
+    dateModified
+  }
+}
+```
+Ejemplo de variable
+```bash
+{ 
+  "userId": 0,
+  "productId": 0
+}
+```
+Ejemplo de respuesta OK
+```bash
+{
+  "data": {
+    "getUserProduct": {
+      "id": 60,
+      "userId": 7,
+      "productId": 25,
+      "quantity": 1,
+      "dateModified": "2021-12-12T16:35:12.653+00:00"
+    }
+  }
+}
+```
+
+### GetItems by userId
+Ejemplo de función:
+```bash
+query GetUserProductsByUserId($getUserProductsByUserIdId: Int!) {
+  getUserProductsByUserId(id: $getUserProductsByUserIdId) {
+    id
+    userId
+    productId
+    quantity
+    dateModified
+  }
+}
+```
+Ejemplo de variable
+```bash
+{
+  "getUserProductsByUserIdId": 7
+}
+```
+Ejemplo de respuesta OK
+```bash
+{
+  "data": {
+    "getUserProductsByUserId": [
+      {
+        "id": 60,
+        "userId": 7,
+        "productId": 25,
+        "quantity": 1,
+        "dateModified": "2021-12-12T16:35:12.653+00:00"
+      }
+    ]
+  }
+}
 ```
 
 
